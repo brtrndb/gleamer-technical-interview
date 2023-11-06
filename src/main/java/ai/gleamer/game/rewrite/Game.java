@@ -47,8 +47,8 @@ public class Game {
         this.purses[this.howManyPlayers()] = 0;
         this.inPenaltyBox[this.howManyPlayers()] = false;
 
-        log.info(playerName + " was added");
-        log.info("They are player number " + this.players.size());
+        log.info("{} was added", playerName);
+        log.info("They are player number {}", this.players.size());
 
         return true;
     }
@@ -58,26 +58,24 @@ public class Game {
     }
 
     public void roll(int roll) {
-        log.info(this.players.get(this.currentPlayer) + " is the current player");
-        log.info("They have rolled a " + roll);
+        log.info("{} is the current player", this.players.get(this.currentPlayer));
+        log.info("They have rolled a {}", roll);
 
         if (this.inPenaltyBox[this.currentPlayer]) {
             if (roll % 2 != 0) {
                 this.isGettingOutOfPenaltyBox = true;
 
-                log.info(this.players.get(this.currentPlayer) + " is getting out of the penalty box");
+                log.info("{} is getting out of the penalty box", this.players.get(this.currentPlayer));
                 this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
                 if (this.places[this.currentPlayer] > 11) {
                     this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
                 }
 
-                log.info(this.players.get(this.currentPlayer)
-                        + "'s new location is "
-                        + this.places[this.currentPlayer]);
-                log.info("The category is " + this.currentCategory());
+                log.info("{}'s new location is {}", this.players.get(this.currentPlayer), this.places[this.currentPlayer]);
+                log.info("The category is {}", this.currentCategory());
                 this.askQuestion();
             } else {
-                log.info(this.players.get(this.currentPlayer) + " is not getting out of the penalty box");
+                log.info("{} is not getting out of the penalty box", this.players.get(this.currentPlayer));
                 this.isGettingOutOfPenaltyBox = false;
             }
         } else {
@@ -86,10 +84,8 @@ public class Game {
                 this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
             }
 
-            log.info(this.players.get(this.currentPlayer)
-                    + "'s new location is "
-                    + this.places[this.currentPlayer]);
-            log.info("The category is " + this.currentCategory());
+            log.info("{}'s new location is {}", this.players.get(this.currentPlayer), this.places[this.currentPlayer]);
+            log.info("The category is {}", this.currentCategory());
             this.askQuestion();
         }
     }
@@ -121,10 +117,7 @@ public class Game {
             if (this.isGettingOutOfPenaltyBox) {
                 log.info("Answer was correct!!!!");
                 this.purses[this.currentPlayer]++;
-                log.info(this.players.get(this.currentPlayer)
-                        + " now has "
-                        + this.purses[this.currentPlayer]
-                        + " Gold Coins.");
+                log.info("{} now has {} Gold Coins.", this.players.get(this.currentPlayer), this.purses[this.currentPlayer]);
 
                 boolean winner = this.didPlayerWin();
                 this.currentPlayer++;
@@ -144,10 +137,7 @@ public class Game {
         } else {
             log.info("Answer was corrent!!!!");
             this.purses[this.currentPlayer]++;
-            log.info(this.players.get(this.currentPlayer)
-                    + " now has "
-                    + this.purses[this.currentPlayer]
-                    + " Gold Coins.");
+            log.info("{} now has {} Gold Coins.", this.players.get(this.currentPlayer), this.purses[this.currentPlayer]);
 
             boolean winner = this.didPlayerWin();
             this.currentPlayer++;
@@ -161,7 +151,7 @@ public class Game {
 
     public boolean wrongAnswer() {
         log.info("Question was incorrectly answered");
-        log.info(this.players.get(this.currentPlayer) + " was sent to the penalty box");
+        log.info("{} was sent to the penalty box", this.players.get(this.currentPlayer));
         this.inPenaltyBox[this.currentPlayer] = true;
 
         this.currentPlayer++;
