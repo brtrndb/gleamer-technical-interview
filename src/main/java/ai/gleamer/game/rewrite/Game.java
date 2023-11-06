@@ -171,7 +171,7 @@ public class Game {
     }
 
     private boolean didPlayerWin() {
-        return !(this.purses[this.currentPlayer] == 6);
+        return this.purses[this.currentPlayer] != 6;
     }
 
 }
