@@ -90,50 +90,25 @@ public class Game {
     }
 
     private void askQuestion() {
-        if (this.currentCategory() == "Pop") {
-            System.out.println(this.popQuestions.removeFirst());
-        }
-        if (this.currentCategory() == "Science") {
-            System.out.println(this.scienceQuestions.removeFirst());
-        }
-        if (this.currentCategory() == "Sports") {
-            System.out.println(this.sportsQuestions.removeFirst());
-        }
-        if (this.currentCategory() == "Rock") {
-            System.out.println(this.rockQuestions.removeFirst());
+        String currentCategory = this.currentCategory();
+
+        switch (currentCategory) {
+            case "Pop" -> System.out.println(this.popQuestions.removeFirst());
+            case "Science" -> System.out.println(this.scienceQuestions.removeFirst());
+            case "Sports" -> System.out.println(this.sportsQuestions.removeFirst());
+            case "Rock" -> System.out.println(this.rockQuestions.removeFirst());
         }
     }
 
     private String currentCategory() {
-        if (this.places[this.currentPlayer] == 0) {
-            return "Pop";
-        }
-        if (this.places[this.currentPlayer] == 4) {
-            return "Pop";
-        }
-        if (this.places[this.currentPlayer] == 8) {
-            return "Pop";
-        }
-        if (this.places[this.currentPlayer] == 1) {
-            return "Science";
-        }
-        if (this.places[this.currentPlayer] == 5) {
-            return "Science";
-        }
-        if (this.places[this.currentPlayer] == 9) {
-            return "Science";
-        }
-        if (this.places[this.currentPlayer] == 2) {
-            return "Sports";
-        }
-        if (this.places[this.currentPlayer] == 6) {
-            return "Sports";
-        }
-        if (this.places[this.currentPlayer] == 10) {
-            return "Sports";
-        }
+        int currentPlayerPlace = this.places[this.currentPlayer];
 
-        return "Rock";
+        return switch (currentPlayerPlace) {
+            case 0, 4, 8 -> "Pop";
+            case 1, 5, 9 -> "Science";
+            case 2, 6, 10 -> "Sports";
+            default -> "Rock";
+        };
     }
 
     public boolean wasCorrectlyAnswered() {
