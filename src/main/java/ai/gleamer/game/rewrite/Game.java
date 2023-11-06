@@ -1,10 +1,15 @@
 package ai.gleamer.game.rewrite;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
+
+    private static final Logger log = LoggerFactory.getLogger(Game.class);
 
     List<String> players = new ArrayList<>();
     int[] places = new int[6];
@@ -42,8 +47,8 @@ public class Game {
         this.purses[this.howManyPlayers()] = 0;
         this.inPenaltyBox[this.howManyPlayers()] = false;
 
-        System.out.println(playerName + " was added");
-        System.out.println("They are player number " + this.players.size());
+        log.info(playerName + " was added");
+        log.info("They are player number " + this.players.size());
 
         return true;
     }
@@ -53,26 +58,26 @@ public class Game {
     }
 
     public void roll(int roll) {
-        System.out.println(this.players.get(this.currentPlayer) + " is the current player");
-        System.out.println("They have rolled a " + roll);
+        log.info(this.players.get(this.currentPlayer) + " is the current player");
+        log.info("They have rolled a " + roll);
 
         if (this.inPenaltyBox[this.currentPlayer]) {
             if (roll % 2 != 0) {
                 this.isGettingOutOfPenaltyBox = true;
 
-                System.out.println(this.players.get(this.currentPlayer) + " is getting out of the penalty box");
+                log.info(this.players.get(this.currentPlayer) + " is getting out of the penalty box");
                 this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
                 if (this.places[this.currentPlayer] > 11) {
                     this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
                 }
 
-                System.out.println(this.players.get(this.currentPlayer)
+                log.info(this.players.get(this.currentPlayer)
                         + "'s new location is "
                         + this.places[this.currentPlayer]);
-                System.out.println("The category is " + this.currentCategory());
+                log.info("The category is " + this.currentCategory());
                 this.askQuestion();
             } else {
-                System.out.println(this.players.get(this.currentPlayer) + " is not getting out of the penalty box");
+                log.info(this.players.get(this.currentPlayer) + " is not getting out of the penalty box");
                 this.isGettingOutOfPenaltyBox = false;
             }
         } else {
@@ -81,10 +86,10 @@ public class Game {
                 this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
             }
 
-            System.out.println(this.players.get(this.currentPlayer)
+            log.info(this.players.get(this.currentPlayer)
                     + "'s new location is "
                     + this.places[this.currentPlayer]);
-            System.out.println("The category is " + this.currentCategory());
+            log.info("The category is " + this.currentCategory());
             this.askQuestion();
         }
     }
@@ -93,10 +98,10 @@ public class Game {
         String currentCategory = this.currentCategory();
 
         switch (currentCategory) {
-            case "Pop" -> System.out.println(this.popQuestions.removeFirst());
-            case "Science" -> System.out.println(this.scienceQuestions.removeFirst());
-            case "Sports" -> System.out.println(this.sportsQuestions.removeFirst());
-            case "Rock" -> System.out.println(this.rockQuestions.removeFirst());
+            case "Pop" -> log.info(this.popQuestions.removeFirst());
+            case "Science" -> log.info(this.scienceQuestions.removeFirst());
+            case "Sports" -> log.info(this.sportsQuestions.removeFirst());
+            case "Rock" -> log.info(this.rockQuestions.removeFirst());
         }
     }
 
@@ -114,9 +119,9 @@ public class Game {
     public boolean wasCorrectlyAnswered() {
         if (this.inPenaltyBox[this.currentPlayer]) {
             if (this.isGettingOutOfPenaltyBox) {
-                System.out.println("Answer was correct!!!!");
+                log.info("Answer was correct!!!!");
                 this.purses[this.currentPlayer]++;
-                System.out.println(this.players.get(this.currentPlayer)
+                log.info(this.players.get(this.currentPlayer)
                         + " now has "
                         + this.purses[this.currentPlayer]
                         + " Gold Coins.");
@@ -137,9 +142,9 @@ public class Game {
                 return true;
             }
         } else {
-            System.out.println("Answer was corrent!!!!");
+            log.info("Answer was corrent!!!!");
             this.purses[this.currentPlayer]++;
-            System.out.println(this.players.get(this.currentPlayer)
+            log.info(this.players.get(this.currentPlayer)
                     + " now has "
                     + this.purses[this.currentPlayer]
                     + " Gold Coins.");
@@ -155,8 +160,8 @@ public class Game {
     }
 
     public boolean wrongAnswer() {
-        System.out.println("Question was incorrectly answered");
-        System.out.println(this.players.get(this.currentPlayer) + " was sent to the penalty box");
+        log.info("Question was incorrectly answered");
+        log.info(this.players.get(this.currentPlayer) + " was sent to the penalty box");
         this.inPenaltyBox[this.currentPlayer] = true;
 
         this.currentPlayer++;
