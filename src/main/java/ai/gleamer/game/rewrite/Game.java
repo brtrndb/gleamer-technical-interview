@@ -21,10 +21,10 @@ public class Game {
 
     public Game() {
         for (int i = 0; i < 50; i++) {
-            popQuestions.addLast("Pop Question " + i);
-            scienceQuestions.addLast(("Science Question " + i));
-            sportsQuestions.addLast(("Sports Question " + i));
-            rockQuestions.addLast(createRockQuestion(i));
+            this.popQuestions.addLast("Pop Question " + i);
+            this.scienceQuestions.addLast(("Science Question " + i));
+            this.sportsQuestions.addLast(("Sports Question " + i));
+            this.rockQuestions.addLast(this.createRockQuestion(i));
         }
     }
 
@@ -33,115 +33,115 @@ public class Game {
     }
 
     public boolean isPlayable() {
-        return (howManyPlayers() >= 2);
+        return (this.howManyPlayers() >= 2);
     }
 
     public boolean add(String playerName) {
-        players.add(playerName);
-        places[howManyPlayers()] = 0;
-        purses[howManyPlayers()] = 0;
-        inPenaltyBox[howManyPlayers()] = false;
+        this.players.add(playerName);
+        this.places[this.howManyPlayers()] = 0;
+        this.purses[this.howManyPlayers()] = 0;
+        this.inPenaltyBox[this.howManyPlayers()] = false;
 
         System.out.println(playerName + " was added");
-        System.out.println("They are player number " + players.size());
+        System.out.println("They are player number " + this.players.size());
 
         return true;
     }
 
     public int howManyPlayers() {
-        return players.size();
+        return this.players.size();
     }
 
     public void roll(int roll) {
-        System.out.println(players.get(currentPlayer) + " is the current player");
+        System.out.println(this.players.get(this.currentPlayer) + " is the current player");
         System.out.println("They have rolled a " + roll);
 
-        if (inPenaltyBox[currentPlayer]) {
+        if (this.inPenaltyBox[this.currentPlayer]) {
             if (roll % 2 != 0) {
-                isGettingOutOfPenaltyBox = true;
+                this.isGettingOutOfPenaltyBox = true;
 
-                System.out.println(players.get(currentPlayer) + " is getting out of the penalty box");
-                places[currentPlayer] = places[currentPlayer] + roll;
-                if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+                System.out.println(this.players.get(this.currentPlayer) + " is getting out of the penalty box");
+                this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
+                if (this.places[this.currentPlayer] > 11) this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
 
-                System.out.println(players.get(currentPlayer)
+                System.out.println(this.players.get(this.currentPlayer)
                         + "'s new location is "
-                        + places[currentPlayer]);
-                System.out.println("The category is " + currentCategory());
-                askQuestion();
+                        + this.places[this.currentPlayer]);
+                System.out.println("The category is " + this.currentCategory());
+                this.askQuestion();
             } else {
-                System.out.println(players.get(currentPlayer) + " is not getting out of the penalty box");
-                isGettingOutOfPenaltyBox = false;
+                System.out.println(this.players.get(this.currentPlayer) + " is not getting out of the penalty box");
+                this.isGettingOutOfPenaltyBox = false;
             }
         } else {
-            places[currentPlayer] = places[currentPlayer] + roll;
-            if (places[currentPlayer] > 11) places[currentPlayer] = places[currentPlayer] - 12;
+            this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
+            if (this.places[this.currentPlayer] > 11) this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
 
-            System.out.println(players.get(currentPlayer)
+            System.out.println(this.players.get(this.currentPlayer)
                     + "'s new location is "
-                    + places[currentPlayer]);
-            System.out.println("The category is " + currentCategory());
-            askQuestion();
+                    + this.places[this.currentPlayer]);
+            System.out.println("The category is " + this.currentCategory());
+            this.askQuestion();
         }
     }
 
     private void askQuestion() {
-        if (currentCategory() == "Pop")
-            System.out.println(popQuestions.removeFirst());
-        if (currentCategory() == "Science")
-            System.out.println(scienceQuestions.removeFirst());
-        if (currentCategory() == "Sports")
-            System.out.println(sportsQuestions.removeFirst());
-        if (currentCategory() == "Rock")
-            System.out.println(rockQuestions.removeFirst());
+        if (this.currentCategory() == "Pop")
+            System.out.println(this.popQuestions.removeFirst());
+        if (this.currentCategory() == "Science")
+            System.out.println(this.scienceQuestions.removeFirst());
+        if (this.currentCategory() == "Sports")
+            System.out.println(this.sportsQuestions.removeFirst());
+        if (this.currentCategory() == "Rock")
+            System.out.println(this.rockQuestions.removeFirst());
     }
 
     private String currentCategory() {
-        if (places[currentPlayer] == 0) return "Pop";
-        if (places[currentPlayer] == 4) return "Pop";
-        if (places[currentPlayer] == 8) return "Pop";
-        if (places[currentPlayer] == 1) return "Science";
-        if (places[currentPlayer] == 5) return "Science";
-        if (places[currentPlayer] == 9) return "Science";
-        if (places[currentPlayer] == 2) return "Sports";
-        if (places[currentPlayer] == 6) return "Sports";
-        if (places[currentPlayer] == 10) return "Sports";
+        if (this.places[this.currentPlayer] == 0) return "Pop";
+        if (this.places[this.currentPlayer] == 4) return "Pop";
+        if (this.places[this.currentPlayer] == 8) return "Pop";
+        if (this.places[this.currentPlayer] == 1) return "Science";
+        if (this.places[this.currentPlayer] == 5) return "Science";
+        if (this.places[this.currentPlayer] == 9) return "Science";
+        if (this.places[this.currentPlayer] == 2) return "Sports";
+        if (this.places[this.currentPlayer] == 6) return "Sports";
+        if (this.places[this.currentPlayer] == 10) return "Sports";
 
         return "Rock";
     }
 
     public boolean wasCorrectlyAnswered() {
-        if (inPenaltyBox[currentPlayer]) {
-            if (isGettingOutOfPenaltyBox) {
+        if (this.inPenaltyBox[this.currentPlayer]) {
+            if (this.isGettingOutOfPenaltyBox) {
                 System.out.println("Answer was correct!!!!");
-                purses[currentPlayer]++;
-                System.out.println(players.get(currentPlayer)
+                this.purses[this.currentPlayer]++;
+                System.out.println(this.players.get(this.currentPlayer)
                         + " now has "
-                        + purses[currentPlayer]
+                        + this.purses[this.currentPlayer]
                         + " Gold Coins.");
 
-                boolean winner = didPlayerWin();
-                currentPlayer++;
-                if (currentPlayer == players.size()) currentPlayer = 0;
+                boolean winner = this.didPlayerWin();
+                this.currentPlayer++;
+                if (this.currentPlayer == this.players.size()) this.currentPlayer = 0;
 
                 return winner;
             } else {
-                currentPlayer++;
-                if (currentPlayer == players.size()) currentPlayer = 0;
+                this.currentPlayer++;
+                if (this.currentPlayer == this.players.size()) this.currentPlayer = 0;
 
                 return true;
             }
         } else {
             System.out.println("Answer was corrent!!!!");
-            purses[currentPlayer]++;
-            System.out.println(players.get(currentPlayer)
+            this.purses[this.currentPlayer]++;
+            System.out.println(this.players.get(this.currentPlayer)
                     + " now has "
-                    + purses[currentPlayer]
+                    + this.purses[this.currentPlayer]
                     + " Gold Coins.");
 
-            boolean winner = didPlayerWin();
-            currentPlayer++;
-            if (currentPlayer == players.size()) currentPlayer = 0;
+            boolean winner = this.didPlayerWin();
+            this.currentPlayer++;
+            if (this.currentPlayer == this.players.size()) this.currentPlayer = 0;
 
             return winner;
         }
@@ -149,17 +149,17 @@ public class Game {
 
     public boolean wrongAnswer() {
         System.out.println("Question was incorrectly answered");
-        System.out.println(players.get(currentPlayer) + " was sent to the penalty box");
-        inPenaltyBox[currentPlayer] = true;
+        System.out.println(this.players.get(this.currentPlayer) + " was sent to the penalty box");
+        this.inPenaltyBox[this.currentPlayer] = true;
 
-        currentPlayer++;
-        if (currentPlayer == players.size()) currentPlayer = 0;
+        this.currentPlayer++;
+        if (this.currentPlayer == this.players.size()) this.currentPlayer = 0;
 
         return true;
     }
 
     private boolean didPlayerWin() {
-        return !(purses[currentPlayer] == 6);
+        return !(this.purses[this.currentPlayer] == 6);
     }
 
 }
