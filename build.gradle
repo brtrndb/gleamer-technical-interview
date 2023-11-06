@@ -1,0 +1,57 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+plugins {
+    id 'idea'
+    id 'java'
+    id 'java-test-fixtures'
+}
+
+repositories {
+    mavenCentral()
+}
+
+group "${project_group}"
+version "${project_version}"
+description "${project_description}"
+
+ext {
+    // Dependency versions.
+}
+
+dependencies {
+    // Main dependencies (Api, Implementation, Compile, Runtime, Annotation).
+
+    // Dev dependencies (Api, Implementation, Compile, Runtime, Annotation).
+
+    // Test dependencies (Api, Implementation, Compile, Runtime, Annotation).
+
+    // Test fixtures dependencies (Api, Implementation, Compile, Runtime, Annotation).
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of("${java_version}")
+    }
+
+    withJavadocJar()
+    withSourcesJar()
+}
+
+compileJava {
+    options.warnings true
+    options.deprecation true
+    options.compilerArgs = ['-Xlint:deprecation']
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events = [/*TestLogEvent.STARTED,*/ TestLogEvent.PASSED, TestLogEvent.SKIPPED, TestLogEvent.FAILED]
+        exceptionFormat TestExceptionFormat.FULL
+        showStandardStreams true
+    }
+
+    ignoreFailures true
+}
