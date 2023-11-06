@@ -62,7 +62,9 @@ public class Game {
 
                 System.out.println(this.players.get(this.currentPlayer) + " is getting out of the penalty box");
                 this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
-                if (this.places[this.currentPlayer] > 11) this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
+                if (this.places[this.currentPlayer] > 11) {
+                    this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
+                }
 
                 System.out.println(this.players.get(this.currentPlayer)
                         + "'s new location is "
@@ -75,7 +77,9 @@ public class Game {
             }
         } else {
             this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
-            if (this.places[this.currentPlayer] > 11) this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
+            if (this.places[this.currentPlayer] > 11) {
+                this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
+            }
 
             System.out.println(this.players.get(this.currentPlayer)
                     + "'s new location is "
@@ -86,26 +90,48 @@ public class Game {
     }
 
     private void askQuestion() {
-        if (this.currentCategory() == "Pop")
+        if (this.currentCategory() == "Pop") {
             System.out.println(this.popQuestions.removeFirst());
-        if (this.currentCategory() == "Science")
+        }
+        if (this.currentCategory() == "Science") {
             System.out.println(this.scienceQuestions.removeFirst());
-        if (this.currentCategory() == "Sports")
+        }
+        if (this.currentCategory() == "Sports") {
             System.out.println(this.sportsQuestions.removeFirst());
-        if (this.currentCategory() == "Rock")
+        }
+        if (this.currentCategory() == "Rock") {
             System.out.println(this.rockQuestions.removeFirst());
+        }
     }
 
     private String currentCategory() {
-        if (this.places[this.currentPlayer] == 0) return "Pop";
-        if (this.places[this.currentPlayer] == 4) return "Pop";
-        if (this.places[this.currentPlayer] == 8) return "Pop";
-        if (this.places[this.currentPlayer] == 1) return "Science";
-        if (this.places[this.currentPlayer] == 5) return "Science";
-        if (this.places[this.currentPlayer] == 9) return "Science";
-        if (this.places[this.currentPlayer] == 2) return "Sports";
-        if (this.places[this.currentPlayer] == 6) return "Sports";
-        if (this.places[this.currentPlayer] == 10) return "Sports";
+        if (this.places[this.currentPlayer] == 0) {
+            return "Pop";
+        }
+        if (this.places[this.currentPlayer] == 4) {
+            return "Pop";
+        }
+        if (this.places[this.currentPlayer] == 8) {
+            return "Pop";
+        }
+        if (this.places[this.currentPlayer] == 1) {
+            return "Science";
+        }
+        if (this.places[this.currentPlayer] == 5) {
+            return "Science";
+        }
+        if (this.places[this.currentPlayer] == 9) {
+            return "Science";
+        }
+        if (this.places[this.currentPlayer] == 2) {
+            return "Sports";
+        }
+        if (this.places[this.currentPlayer] == 6) {
+            return "Sports";
+        }
+        if (this.places[this.currentPlayer] == 10) {
+            return "Sports";
+        }
 
         return "Rock";
     }
@@ -122,12 +148,16 @@ public class Game {
 
                 boolean winner = this.didPlayerWin();
                 this.currentPlayer++;
-                if (this.currentPlayer == this.players.size()) this.currentPlayer = 0;
+                if (this.currentPlayer == this.players.size()) {
+                    this.currentPlayer = 0;
+                }
 
                 return winner;
             } else {
                 this.currentPlayer++;
-                if (this.currentPlayer == this.players.size()) this.currentPlayer = 0;
+                if (this.currentPlayer == this.players.size()) {
+                    this.currentPlayer = 0;
+                }
 
                 return true;
             }
@@ -141,7 +171,9 @@ public class Game {
 
             boolean winner = this.didPlayerWin();
             this.currentPlayer++;
-            if (this.currentPlayer == this.players.size()) this.currentPlayer = 0;
+            if (this.currentPlayer == this.players.size()) {
+                this.currentPlayer = 0;
+            }
 
             return winner;
         }
@@ -153,7 +185,9 @@ public class Game {
         this.inPenaltyBox[this.currentPlayer] = true;
 
         this.currentPlayer++;
-        if (this.currentPlayer == this.players.size()) this.currentPlayer = 0;
+        if (this.currentPlayer == this.players.size()) {
+            this.currentPlayer = 0;
+        }
 
         return true;
     }
