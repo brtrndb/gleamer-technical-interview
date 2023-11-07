@@ -78,9 +78,10 @@ public class Game {
         log.info("{} is the current player", currentPlayerName);
         log.info("They have rolled a {}", roll);
 
+        boolean isCurrentPlayerOutOfPenaltyBox = !this.inPenaltyBox[this.currentPlayer];
         this.isGettingOutOfPenaltyBox = this.canPlayerGetOutOfPenaltyBox(currentPlayerName, roll);
 
-        if (!this.inPenaltyBox[this.currentPlayer] || this.isGettingOutOfPenaltyBox) {
+        if (isCurrentPlayerOutOfPenaltyBox || this.isGettingOutOfPenaltyBox) {
             this.movePlayer(currentPlayerName, roll);
 
             log.info("The category is {}", this.currentCategory());
@@ -91,8 +92,9 @@ public class Game {
 
     private boolean canPlayerGetOutOfPenaltyBox(String currentPlayerName, int roll) {
         boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[this.currentPlayer];
+        boolean isRollEven = (roll % 2) == 0;
 
-        if (isCurrentPlayerInPenaltyBox && ((roll % 2) == 0)) {
+        if (isCurrentPlayerInPenaltyBox && isRollEven) {
             log.info("{} is not getting out of the penalty box", currentPlayerName);
             return false;
         }
@@ -139,8 +141,9 @@ public class Game {
 
     public boolean wasCorrectlyAnswered() {
         String currentPlayerName = this.players.get(this.currentPlayer);
+        boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[this.currentPlayer];
 
-        if (this.inPenaltyBox[this.currentPlayer] && !this.isGettingOutOfPenaltyBox) {
+        if (isCurrentPlayerInPenaltyBox && !this.isGettingOutOfPenaltyBox) {
             this.getNextPlayer();
 
             return true;
