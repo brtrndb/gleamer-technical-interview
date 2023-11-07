@@ -118,12 +118,16 @@ public class Game {
     private void askQuestion() {
         String currentCategory = this.currentCategory();
 
-        switch (currentCategory) {
-            case "Pop" -> log.info(this.popQuestions.removeFirst());
-            case "Science" -> log.info(this.scienceQuestions.removeFirst());
-            case "Sports" -> log.info(this.sportsQuestions.removeFirst());
-            case "Rock" -> log.info(this.rockQuestions.removeFirst());
-        }
+        List<String> currentCategoryQuestions = switch (currentCategory) {
+            case "Pop" -> this.popQuestions;
+            case "Science" -> this.scienceQuestions;
+            case "Sports" -> this.sportsQuestions;
+            case "Rock" -> this.rockQuestions;
+        };
+
+        String currentQuestion = currentCategoryQuestions.removeFirst();
+
+        log.info(currentQuestion);
     }
 
     private String currentCategory() {
