@@ -73,25 +73,30 @@ public class Game {
                 this.isGettingOutOfPenaltyBox = true;
 
                 log.info("{} is getting out of the penalty box", currentPlayerName);
-                this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
-                if (this.places[this.currentPlayer] > 11) {
-                    this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
-                }
 
-                log.info("{}'s new location is {}", currentPlayerName, this.places[this.currentPlayer]);
+                this.movePlayer(currentPlayerName,roll);
+
                 log.info("The category is {}", this.currentCategory());
+
                 this.askQuestion();
             }
         } else {
-            this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
-            if (this.places[this.currentPlayer] > 11) {
-                this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
-            }
+            this.movePlayer(currentPlayerName, roll);
 
-            log.info("{}'s new location is {}", currentPlayerName, this.places[this.currentPlayer]);
             log.info("The category is {}", this.currentCategory());
+
             this.askQuestion();
         }
+    }
+
+    private void movePlayer(String currentPlayerName, int roll) {
+        this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
+
+        if (this.places[this.currentPlayer] > 11) {
+            this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
+        }
+
+        log.info("{}'s new location is {}", currentPlayerName, this.places[this.currentPlayer]);
     }
 
     private void askQuestion() {
