@@ -126,17 +126,12 @@ public class Game {
                 log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayer]);
 
                 boolean winner = this.didPlayerWin();
-                this.currentPlayer++;
-                if (this.currentPlayer == this.players.size()) {
-                    this.currentPlayer = 0;
-                }
+
+                this.getNextPlayer();
 
                 return winner;
             } else {
-                this.currentPlayer++;
-                if (this.currentPlayer == this.players.size()) {
-                    this.currentPlayer = 0;
-                }
+                this.getNextPlayer();
 
                 return true;
             }
@@ -146,10 +141,8 @@ public class Game {
             log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayer]);
 
             boolean winner = this.didPlayerWin();
-            this.currentPlayer++;
-            if (this.currentPlayer == this.players.size()) {
-                this.currentPlayer = 0;
-            }
+
+            this.getNextPlayer();
 
             return winner;
         }
@@ -162,16 +155,19 @@ public class Game {
         log.info("{} was sent to the penalty box", currentPlayerName);
         this.inPenaltyBox[this.currentPlayer] = true;
 
-        this.currentPlayer++;
-        if (this.currentPlayer == this.players.size()) {
-            this.currentPlayer = 0;
-        }
+        this.getNextPlayer();
 
         return true;
     }
 
     private boolean didPlayerWin() {
         return this.purses[this.currentPlayer] != 6;
+    }
+
+    private int getNextPlayer() {
+        this.currentPlayer = (this.currentPlayer + 1) % this.players.size();
+
+        return this.currentPlayer;
     }
 
 }
