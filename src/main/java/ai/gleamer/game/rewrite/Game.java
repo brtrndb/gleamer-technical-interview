@@ -39,15 +39,11 @@ public class Game {
         this.isGettingOutOfPenaltyBox = false;
 
         for (int i = 0; i < 50; i++) {
-            this.popQuestions.addLast("Pop Question " + i);
-            this.scienceQuestions.addLast(("Science Question " + i));
-            this.sportsQuestions.addLast(("Sports Question " + i));
-            this.rockQuestions.addLast(this.createRockQuestion(i));
+            this.popQuestions.addLast(QuestionsBuilder.createPopQuestion(i));
+            this.scienceQuestions.addLast(QuestionsBuilder.createScienceQuestion(i));
+            this.sportsQuestions.addLast(QuestionsBuilder.createSportsQuestion(i));
+            this.rockQuestions.addLast(QuestionsBuilder.createRockQuestion(i));
         }
-    }
-
-    public String createRockQuestion(int index) {
-        return "Rock Question " + index;
     }
 
     public boolean isPlayable() {
