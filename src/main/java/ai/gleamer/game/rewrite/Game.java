@@ -11,20 +11,33 @@ public class Game {
 
     private static final Logger log = LoggerFactory.getLogger(Game.class);
 
-    List<String> players = new ArrayList<>();
-    int[] places = new int[6];
-    int[] purses = new int[6];
-    boolean[] inPenaltyBox = new boolean[6];
+    List<String> players;
+    int[] places;
+    int[] purses;
+    boolean[] inPenaltyBox;
 
-    List<String> popQuestions = new LinkedList<>();
-    List<String> scienceQuestions = new LinkedList<>();
-    List<String> sportsQuestions = new LinkedList<>();
-    List<String> rockQuestions = new LinkedList<>();
+    List<String> popQuestions;
+    List<String> scienceQuestions;
+    List<String> sportsQuestions;
+    List<String> rockQuestions;
 
-    int currentPlayer = 0;
+    int currentPlayer;
     boolean isGettingOutOfPenaltyBox;
 
     public Game() {
+        this.players = new ArrayList<>();
+        this.places = new int[6];
+        this.purses = new int[6];
+        this.inPenaltyBox = new boolean[6];
+
+        this.popQuestions = new LinkedList<>();
+        this.scienceQuestions = new LinkedList<>();
+        this.sportsQuestions = new LinkedList<>();
+        this.rockQuestions = new LinkedList<>();
+
+        this.currentPlayer = 0;
+        this.isGettingOutOfPenaltyBox = false;
+
         for (int i = 0; i < 50; i++) {
             this.popQuestions.addLast("Pop Question " + i);
             this.scienceQuestions.addLast(("Science Question " + i));
