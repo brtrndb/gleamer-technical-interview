@@ -78,28 +78,31 @@ public class Game {
         log.info("{} is the current player", currentPlayerName);
         log.info("They have rolled a {}", roll);
 
-        if (this.inPenaltyBox[this.currentPlayer]) {
-            if (roll % 2 == 0) {
-                log.info("{} is not getting out of the penalty box", currentPlayerName);
-                this.isGettingOutOfPenaltyBox = false;
-            } else {
-                this.isGettingOutOfPenaltyBox = true;
+        this.isGettingOutOfPenaltyBox = this.canPlayerGetOutOfPenaltyBox(currentPlayerName, roll);
 
-                log.info("{} is getting out of the penalty box", currentPlayerName);
-
-                this.movePlayer(currentPlayerName,roll);
-
-                log.info("The category is {}", this.currentCategory());
-
-                this.askQuestion();
-            }
-        } else {
+        if (!this.inPenaltyBox[this.currentPlayer] || this.isGettingOutOfPenaltyBox) {
             this.movePlayer(currentPlayerName, roll);
 
             log.info("The category is {}", this.currentCategory());
 
             this.askQuestion();
         }
+    }
+
+    private boolean canPlayerGetOutOfPenaltyBox(String currentPlayerName, int roll) {
+        boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[this.currentPlayer];
+
+        if (isCurrentPlayerInPenaltyBox && ((roll % 2) == 0)) {
+            log.info("{} is not getting out of the penalty box", currentPlayerName);
+            return false;
+        }
+
+        if (isCurrentPlayerInPenaltyBox) {
+            log.info("{} is getting out of the penalty box", currentPlayerName);
+            return true;
+        }
+
+        return this.isGettingOutOfPenaltyBox;
     }
 
     private void movePlayer(String currentPlayerName, int roll) {
