@@ -78,9 +78,11 @@ public class Game {
         if (isCurrentPlayerOutOfPenaltyBox || this.isGettingOutOfPenaltyBox) {
             this.movePlayer(currentPlayerName, roll);
 
-            log.info("The current category is {}.", this.currentCategory());
+            Category category = this.currentCategory();
 
-            this.askQuestion();
+            log.info("The current category is {}.", category);
+
+            this.askQuestion(category);
         }
     }
 
@@ -111,10 +113,8 @@ public class Game {
         log.info("{}'s new location is {}.", currentPlayerName, this.places[this.currentPlayer]);
     }
 
-    private void askQuestion() {
-        Category currentCategory = this.currentCategory();
-
-        List<String> currentCategoryQuestions = switch (currentCategory) {
+    private void askQuestion(Category category) {
+        List<String> currentCategoryQuestions = switch (category) {
             case POP -> this.popQuestions;
             case SCIENCE -> this.scienceQuestions;
             case SPORTS -> this.sportsQuestions;
