@@ -62,8 +62,7 @@ public class Game {
         this.purses[playersCount] = 0;
         this.inPenaltyBox[playersCount] = false;
 
-        log.info("{} was added", playerName);
-        log.info("They are player number {}", this.players.size());
+        log.info("{} was added with player number {}.", playerName, this.players.size());
 
         return true;
     }
@@ -75,8 +74,7 @@ public class Game {
     public void roll(int roll) {
         String currentPlayerName = this.players.get(this.currentPlayer);
 
-        log.info("{} is the current player", currentPlayerName);
-        log.info("They have rolled a {}", roll);
+        log.info("Current player {} has rolled a {}.", currentPlayerName, roll);
 
         boolean isCurrentPlayerOutOfPenaltyBox = !this.inPenaltyBox[this.currentPlayer];
         this.isGettingOutOfPenaltyBox = this.canPlayerGetOutOfPenaltyBox(currentPlayerName, roll);
@@ -84,7 +82,7 @@ public class Game {
         if (isCurrentPlayerOutOfPenaltyBox || this.isGettingOutOfPenaltyBox) {
             this.movePlayer(currentPlayerName, roll);
 
-            log.info("The category is {}", this.currentCategory());
+            log.info("The current category is {}.", this.currentCategory());
 
             this.askQuestion();
         }
@@ -95,12 +93,12 @@ public class Game {
         boolean isRollEven = (roll % 2) == 0;
 
         if (isCurrentPlayerInPenaltyBox && isRollEven) {
-            log.info("{} is not getting out of the penalty box", currentPlayerName);
+            log.info("{} is not getting out of the penalty box.", currentPlayerName);
             return false;
         }
 
         if (isCurrentPlayerInPenaltyBox) {
-            log.info("{} is getting out of the penalty box", currentPlayerName);
+            log.info("{} is getting out of the penalty box.", currentPlayerName);
             return true;
         }
 
@@ -114,7 +112,7 @@ public class Game {
             this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
         }
 
-        log.info("{}'s new location is {}", currentPlayerName, this.places[this.currentPlayer]);
+        log.info("{}'s new location is {}.", currentPlayerName, this.places[this.currentPlayer]);
     }
 
     private void askQuestion() {
@@ -149,7 +147,7 @@ public class Game {
             return true;
         }
 
-        log.info("Answer was corrent!!!!");
+        log.info("Answer was correct !");
         this.purses[this.currentPlayer]++;
         log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayer]);
 
@@ -163,8 +161,7 @@ public class Game {
     public boolean wrongAnswer() {
         String currentPlayerName = this.players.get(this.currentPlayer);
 
-        log.info("Question was incorrectly answered");
-        log.info("{} was sent to the penalty box", currentPlayerName);
+        log.info("{} incorrectly answered question and has been sent to penalty box.", currentPlayerName);
         this.inPenaltyBox[this.currentPlayer] = true;
 
         this.getNextPlayer();
