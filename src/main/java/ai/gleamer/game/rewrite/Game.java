@@ -66,7 +66,10 @@ public class Game {
         log.info("They have rolled a {}", roll);
 
         if (this.inPenaltyBox[this.currentPlayer]) {
-            if (roll % 2 != 0) {
+            if (roll % 2 == 0) {
+                log.info("{} is not getting out of the penalty box", currentPlayerName);
+                this.isGettingOutOfPenaltyBox = false;
+            } else {
                 this.isGettingOutOfPenaltyBox = true;
 
                 log.info("{} is getting out of the penalty box", currentPlayerName);
@@ -78,9 +81,6 @@ public class Game {
                 log.info("{}'s new location is {}", currentPlayerName, this.places[this.currentPlayer]);
                 log.info("The category is {}", this.currentCategory());
                 this.askQuestion();
-            } else {
-                log.info("{} is not getting out of the penalty box", currentPlayerName);
-                this.isGettingOutOfPenaltyBox = false;
             }
         } else {
             this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
