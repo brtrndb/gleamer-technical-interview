@@ -151,22 +151,22 @@ public class Game {
                 this.getNextPlayer();
 
                 return winner;
-            } else {
-                this.getNextPlayer();
-
-                return true;
             }
-        } else {
-            log.info("Answer was corrent!!!!");
-            this.purses[this.currentPlayer]++;
-            log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayer]);
-
-            boolean winner = this.didPlayerWin();
 
             this.getNextPlayer();
 
-            return winner;
+            return true;
         }
+
+        log.info("Answer was corrent!!!!");
+        this.purses[this.currentPlayer]++;
+        log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayer]);
+
+        boolean winner = this.didPlayerWin();
+
+        this.getNextPlayer();
+
+        return winner;
     }
 
     public boolean wrongAnswer() {
