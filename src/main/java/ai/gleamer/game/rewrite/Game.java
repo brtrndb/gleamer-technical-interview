@@ -112,13 +112,13 @@ public class Game {
     }
 
     private void askQuestion() {
-        String currentCategory = this.currentCategory();
+        Category currentCategory = this.currentCategory();
 
         List<String> currentCategoryQuestions = switch (currentCategory) {
-            case "Pop" -> this.popQuestions;
-            case "Science" -> this.scienceQuestions;
-            case "Sports" -> this.sportsQuestions;
-            case "Rock" -> this.rockQuestions;
+            case POP -> this.popQuestions;
+            case SCIENCE -> this.scienceQuestions;
+            case SPORTS -> this.sportsQuestions;
+            case ROCK -> this.rockQuestions;
         };
 
         String currentQuestion = currentCategoryQuestions.removeFirst();
@@ -126,14 +126,14 @@ public class Game {
         log.info(currentQuestion);
     }
 
-    private String currentCategory() {
+    private Category currentCategory() {
         int currentPlayerPlace = this.places[this.currentPlayer];
 
         return switch (currentPlayerPlace) {
-            case 0, 4, 8 -> "Pop";
-            case 1, 5, 9 -> "Science";
-            case 2, 6, 10 -> "Sports";
-            default -> "Rock";
+            case 0, 4, 8 -> Category.POP;
+            case 1, 5, 9 -> Category.SCIENCE;
+            case 2, 6, 10 -> Category.SPORTS;
+            default -> Category.ROCK;
         };
     }
 
