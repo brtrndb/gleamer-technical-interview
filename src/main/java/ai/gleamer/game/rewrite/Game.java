@@ -140,19 +140,19 @@ public class Game {
     public boolean wasCorrectlyAnswered() {
         String currentPlayerName = this.players.get(this.currentPlayer);
 
+        if (this.inPenaltyBox[this.currentPlayer] && this.isGettingOutOfPenaltyBox) {
+            log.info("Answer was correct!!!!");
+            this.purses[this.currentPlayer]++;
+            log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayer]);
+
+            boolean winner = this.didPlayerWin();
+
+            this.getNextPlayer();
+
+            return winner;
+        }
+
         if (this.inPenaltyBox[this.currentPlayer]) {
-            if (this.isGettingOutOfPenaltyBox) {
-                log.info("Answer was correct!!!!");
-                this.purses[this.currentPlayer]++;
-                log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayer]);
-
-                boolean winner = this.didPlayerWin();
-
-                this.getNextPlayer();
-
-                return winner;
-            }
-
             this.getNextPlayer();
 
             return true;
