@@ -59,6 +59,10 @@ public class Game {
     public boolean add(String playerName) {
         int playersCount = this.getPlayersCount();
 
+        if (playersCount >= MAXIMUM_PLAYERS) {
+            throw new RuntimeException("Too many players");
+        }
+
         this.players.add(playerName);
         this.places[playersCount] = 0;
         this.purses[playersCount] = 0;
