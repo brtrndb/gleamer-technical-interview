@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class Game {
 
@@ -61,6 +62,10 @@ public class Game {
 
         if (playersCount >= MAXIMUM_PLAYERS) {
             throw new RuntimeException("Too many players");
+        }
+
+        if (Objects.isNull(playerName) || playerName.isEmpty()) {
+            throw new RuntimeException("Invalid player name");
         }
 
         this.players.add(playerName);
