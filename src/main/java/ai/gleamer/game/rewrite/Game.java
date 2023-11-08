@@ -133,14 +133,14 @@ public class Game {
         player.addOneCoin();
         log.info("{} now has {} Gold Coins.", player, player.getCoins());
 
-        boolean winner = this.didPlayerWin(player);
+        boolean winner = Game.didPlayerWin(player);
 
         this.playersList.getNextPlayer();
 
         return winner;
     }
 
-    private boolean didPlayerWin(Player player) {
+    private static boolean didPlayerWin(Player player) {
         return player.getCoins() == REQUIRED_COINS_FOR_WINNING;
     }
 
