@@ -17,8 +17,7 @@ public class Game {
 
     private final PlayersList playersList;
     private final QuestionsDeck questionsDeck;
-
-    boolean isGettingOutOfPenaltyBox;
+    private boolean isGettingOutOfPenaltyBox;
 
     public Game() {
         this.playersList = new PlayersList(MAXIMUM_PLAYERS);
