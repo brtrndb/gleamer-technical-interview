@@ -106,16 +106,16 @@ public class Game {
         return player.getLocation();
     }
 
-    private void askQuestion(Category category) {
-        String currentQuestion = this.questionsDeck.pickQuestion(category);
-
-        log.info(currentQuestion);
-    }
-
     private static Category getCategoryAtLocation(int location) {
         int categoryIndex = location % Category.values().length;
 
         return Category.values()[categoryIndex];
+    }
+
+    private void askQuestion(Category category) {
+        String currentQuestion = this.questionsDeck.pickQuestion(category);
+
+        log.info(currentQuestion);
     }
 
     public boolean isCorrectlyAnswered() {
@@ -140,6 +140,10 @@ public class Game {
         return winner;
     }
 
+    private boolean didPlayerWin(Player player) {
+        return player.getCoins() == REQUIRED_COINS_FOR_WINNING;
+    }
+
     public boolean isWronglyAnswered() {
         Player player = this.playersList.getCurrentPlayer();
 
@@ -149,10 +153,6 @@ public class Game {
         this.playersList.getNextPlayer();
 
         return true;
-    }
-
-    private boolean didPlayerWin(Player player) {
-        return player.getCoins() == REQUIRED_COINS_FOR_WINNING;
     }
 
 }

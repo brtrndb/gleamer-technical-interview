@@ -15,6 +15,10 @@ public class PlayersList {
         this.currentPlayerIndex = 0;
     }
 
+    public int getPlayersCount() {
+        return this.players.size();
+    }
+
     public Player addPlayer(String playerName) {
         if (this.getPlayersCount() >= this.maximumPlayersCount) {
             throw new RuntimeException("Too many players");
@@ -25,10 +29,6 @@ public class PlayersList {
         this.players.add(player);
 
         return player;
-    }
-
-    public int getPlayersCount() {
-        return this.players.size();
     }
 
     public Player getCurrentPlayer() {
