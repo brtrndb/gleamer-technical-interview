@@ -147,7 +147,7 @@ public class Game {
         };
     }
 
-    public boolean wasCorrectlyAnswered() {
+    public boolean isCorrectlyAnswered() {
         Player player = this.playersList.getCurrentPlayer();
         boolean isCurrentPlayerInPenaltyBox = player.isInPenaltyBox();
 
@@ -169,7 +169,7 @@ public class Game {
         return winner;
     }
 
-    public boolean wrongAnswer() {
+    public boolean isWronglyAnswered() {
         Player player = this.playersList.getCurrentPlayer();
 
         log.info("{} incorrectly answered question and has been sent to penalty box.", player);
