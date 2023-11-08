@@ -10,21 +10,21 @@ import java.util.Objects;
 public class Player {
 
     private final String name;
-    private int place;
-    private int purse;
+    private int location;
+    private int coins;
     private boolean isInPenaltyBox;
 
     public Player(String name) {
         this.name = Objects.requireNonNull(name, "Player name is null");
-        this.place = 0;
-        this.purse = 0;
+        this.location = 0;
+        this.coins = 0;
         this.isInPenaltyBox = false;
     }
 
-    public int addOneCoinToPurse() {
-        this.purse = this.purse + 1;
+    public int addOneCoin() {
+        this.coins = this.coins + 1;
 
-        return this.purse;
+        return this.coins;
     }
 
 }

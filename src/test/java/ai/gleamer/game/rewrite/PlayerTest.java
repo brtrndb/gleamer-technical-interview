@@ -18,17 +18,17 @@ class PlayerTest {
     }
 
     @Test
-    void should_add_one_coin_to_purse() {
+    void should_add_one_coin() {
         // Given:
         Player player = new Player("Player Name");
-        int purseBefore = player.getPurse();
+        int coinsBefore = player.getCoins();
 
         // When:
-        int purseAfter = player.addOneCoinToPurse();
+        int coinsAfter = player.addOneCoin();
 
         // Then:
-        Assertions.assertThat(purseAfter)
-                .isEqualTo(purseBefore + 1);
+        Assertions.assertThat(coinsAfter)
+                .isEqualTo(coinsBefore + 1);
     }
 
 }

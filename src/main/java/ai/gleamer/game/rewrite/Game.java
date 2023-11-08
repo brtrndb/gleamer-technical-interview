@@ -83,9 +83,9 @@ public class Game {
         this.isGettingOutOfPenaltyBox = this.canPlayerGetOutOfPenaltyBox(player, roll);
 
         if (isCurrentPlayerOutOfPenaltyBox || this.isGettingOutOfPenaltyBox) {
-            int newPlayerPlace = this.movePlayer(player, roll);
+            int newPlayerPosition = this.movePlayer(player, roll);
 
-            Category category = this.getCurrentCategory(newPlayerPlace);
+            Category category = this.getCurrentCategory(newPlayerPosition);
 
             log.info("The current category is {}.", category);
 
@@ -111,18 +111,18 @@ public class Game {
     }
 
     private int movePlayer(Player player, int roll) {
-        int currentPlayerPlace = player.getPlace();
-        int newPlayerPlace = currentPlayerPlace + roll;
+        int currentPlayerLocation = player.getLocation();
+        int newPlayerLocation = currentPlayerLocation + roll;
 
-        if (newPlayerPlace >= TOTAL_SQUARES) {
-            newPlayerPlace = newPlayerPlace - TOTAL_SQUARES;
+        if (newPlayerLocation >= TOTAL_SQUARES) {
+            newPlayerLocation = newPlayerLocation - TOTAL_SQUARES;
         }
 
-        player.setPlace(newPlayerPlace);
+        player.setLocation(newPlayerLocation);
 
-        log.info("{}'s new location is {}.", player, player.getPlace());
+        log.info("{}'s new location is {}.", player, player.getLocation());
 
-        return player.getPlace();
+        return player.getLocation();
     }
 
     private void askQuestion(Category category) {
@@ -138,8 +138,8 @@ public class Game {
         log.info(currentQuestion);
     }
 
-    private Category getCurrentCategory(int place) {
-        return switch (place) {
+    private Category getCurrentCategory(int location) {
+        return switch (location) {
             case 0, 4, 8 -> Category.POP;
             case 1, 5, 9 -> Category.SCIENCE;
             case 2, 6, 10 -> Category.SPORTS;
@@ -159,8 +159,8 @@ public class Game {
 
         log.info("Answer was correct !");
         player.setInPenaltyBox(false);
-        player.addOneCoinToPurse();
-        log.info("{} now has {} Gold Coins.", player, player.getPurse());
+        player.addOneCoin();
+        log.info("{} now has {} Gold Coins.", player, player.getCoins());
 
         boolean winner = this.didPlayerWin(player);
 
@@ -181,7 +181,7 @@ public class Game {
     }
 
     private boolean didPlayerWin(Player player) {
-        return player.getPurse() == REQUIRED_COINS_FOR_WINNING;
+        return player.getCoins() == REQUIRED_COINS_FOR_WINNING;
     }
 
 }
