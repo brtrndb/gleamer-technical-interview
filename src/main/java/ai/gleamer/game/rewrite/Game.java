@@ -27,7 +27,7 @@ public class Game {
     List<String> sportsQuestions;
     List<String> rockQuestions;
 
-    int currentPlayer;
+    int currentPlayerIndex;
     boolean isGettingOutOfPenaltyBox;
 
     public Game() {
@@ -41,7 +41,7 @@ public class Game {
         this.sportsQuestions = new LinkedList<>();
         this.rockQuestions = new LinkedList<>();
 
-        this.currentPlayer = 0;
+        this.currentPlayerIndex = 0;
         this.isGettingOutOfPenaltyBox = false;
 
         for (int i = 0; i < QUESTION_LIST_SIZE; i++) {
@@ -52,12 +52,12 @@ public class Game {
         }
     }
 
-    public boolean isPlayable() {
-        return (this.howManyPlayers() >= MINIMUM_PLAYERS);
+    public boolean isReadyToPlay() {
+        return (this.getPlayersCount() >= MINIMUM_PLAYERS);
     }
 
     public boolean add(String playerName) {
-        int playersCount = this.howManyPlayers();
+        int playersCount = this.getPlayersCount();
 
         this.players.add(playerName);
         this.places[playersCount] = 0;
@@ -69,16 +69,16 @@ public class Game {
         return true;
     }
 
-    public int howManyPlayers() {
+    public int getPlayersCount() {
         return this.players.size();
     }
 
     public void roll(int roll) {
-        String currentPlayerName = this.players.get(this.currentPlayer);
+        String currentPlayerName = this.players.get(this.currentPlayerIndex);
 
         log.info("Current player {} has rolled a {}.", currentPlayerName, roll);
 
-        boolean isCurrentPlayerOutOfPenaltyBox = !this.inPenaltyBox[this.currentPlayer];
+        boolean isCurrentPlayerOutOfPenaltyBox = !this.inPenaltyBox[this.currentPlayerIndex];
         this.isGettingOutOfPenaltyBox = this.canPlayerGetOutOfPenaltyBox(currentPlayerName, roll);
 
         if (isCurrentPlayerOutOfPenaltyBox || this.isGettingOutOfPenaltyBox) {
@@ -93,7 +93,7 @@ public class Game {
     }
 
     private boolean canPlayerGetOutOfPenaltyBox(String currentPlayerName, int roll) {
-        boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[this.currentPlayer];
+        boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[this.currentPlayerIndex];
         boolean isRollEven = (roll % 2) == 0;
 
         if (isCurrentPlayerInPenaltyBox && isRollEven) {
@@ -110,16 +110,16 @@ public class Game {
     }
 
     private void movePlayer(String currentPlayerName, int roll) {
-        int currentPlayerPlace = this.places[this.currentPlayer];
+        int currentPlayerPlace = this.places[this.currentPlayerIndex];
         int newPlayerPlace = currentPlayerPlace + roll;
 
         if (newPlayerPlace >= TOTAL_SQUARES) {
             newPlayerPlace = newPlayerPlace - TOTAL_SQUARES;
         }
 
-        this.places[this.currentPlayer] = newPlayerPlace;
+        this.places[this.currentPlayerIndex] = newPlayerPlace;
 
-        log.info("{}'s new location is {}.", currentPlayerName, this.places[this.currentPlayer]);
+        log.info("{}'s new location is {}.", currentPlayerName, this.places[this.currentPlayerIndex]);
     }
 
     private void askQuestion(Category category) {
@@ -136,7 +136,7 @@ public class Game {
     }
 
     private Category getCurrentCategory() {
-        int currentPlayerPlace = this.places[this.currentPlayer];
+        int currentPlayerPlace = this.places[this.currentPlayerIndex];
 
         return switch (currentPlayerPlace) {
             case 0, 4, 8 -> Category.POP;
@@ -147,8 +147,8 @@ public class Game {
     }
 
     public boolean wasCorrectlyAnswered() {
-        String currentPlayerName = this.players.get(this.currentPlayer);
-        boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[this.currentPlayer];
+        String currentPlayerName = this.players.get(this.currentPlayerIndex);
+        boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[this.currentPlayerIndex];
 
         if (isCurrentPlayerInPenaltyBox && !this.isGettingOutOfPenaltyBox) {
             this.getNextPlayer();
@@ -157,8 +157,8 @@ public class Game {
         }
 
         log.info("Answer was correct !");
-        this.purses[this.currentPlayer]++;
-        log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayer]);
+        this.purses[this.currentPlayerIndex]++;
+        log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayerIndex]);
 
         boolean winner = this.didPlayerWin();
 
@@ -168,10 +168,10 @@ public class Game {
     }
 
     public boolean wrongAnswer() {
-        String currentPlayerName = this.players.get(this.currentPlayer);
+        String currentPlayerName = this.players.get(this.currentPlayerIndex);
 
         log.info("{} incorrectly answered question and has been sent to penalty box.", currentPlayerName);
-        this.inPenaltyBox[this.currentPlayer] = true;
+        this.inPenaltyBox[this.currentPlayerIndex] = true;
 
         this.getNextPlayer();
 
@@ -179,13 +179,13 @@ public class Game {
     }
 
     private boolean didPlayerWin() {
-        return this.purses[this.currentPlayer] != REQUIRED_COINS_FOR_WINNING;
+        return this.purses[this.currentPlayerIndex] != REQUIRED_COINS_FOR_WINNING;
     }
 
     private int getNextPlayer() {
-        this.currentPlayer = (this.currentPlayer + 1) % this.players.size();
+        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.size();
 
-        return this.currentPlayer;
+        return this.currentPlayerIndex;
     }
 
 }
