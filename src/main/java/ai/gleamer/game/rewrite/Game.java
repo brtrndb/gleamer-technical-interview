@@ -64,9 +64,9 @@ public class Game {
         this.isGettingOutOfPenaltyBox = this.canPlayerGetOutOfPenaltyBox(player, roll);
 
         if (isCurrentPlayerOutOfPenaltyBox || this.isGettingOutOfPenaltyBox) {
-            int newPlayerPosition = this.movePlayer(player, roll);
+            int newPlayerPosition = Game.movePlayer(player, roll);
 
-            Category category = this.getCurrentCategory(newPlayerPosition);
+            Category category = Game.getCurrentCategory(newPlayerPosition);
 
             log.info("The current category is {}.", category);
 
@@ -91,7 +91,7 @@ public class Game {
         return this.isGettingOutOfPenaltyBox;
     }
 
-    private int movePlayer(Player player, int roll) {
+    private static int movePlayer(Player player, int roll) {
         int currentPlayerLocation = player.getLocation();
         int newPlayerLocation = currentPlayerLocation + roll;
 
@@ -112,7 +112,7 @@ public class Game {
         log.info(currentQuestion);
     }
 
-    private Category getCurrentCategory(int location) {
+    private static Category getCurrentCategory(int location) {
         return switch (location) {
             case 0, 4, 8 -> Category.POP;
             case 1, 5, 9 -> Category.SCIENCE;
