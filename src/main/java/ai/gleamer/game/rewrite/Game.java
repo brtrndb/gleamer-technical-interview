@@ -78,7 +78,7 @@ public class Game {
         if (isCurrentPlayerOutOfPenaltyBox || this.isGettingOutOfPenaltyBox) {
             this.movePlayer(currentPlayerName, roll);
 
-            Category category = this.currentCategory();
+            Category category = this.getCurrentCategory();
 
             log.info("The current category is {}.", category);
 
@@ -126,7 +126,7 @@ public class Game {
         log.info(currentQuestion);
     }
 
-    private Category currentCategory() {
+    private Category getCurrentCategory() {
         int currentPlayerPlace = this.places[this.currentPlayer];
 
         return switch (currentPlayerPlace) {
