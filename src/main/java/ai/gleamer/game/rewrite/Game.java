@@ -83,6 +83,10 @@ public class Game {
     }
 
     public void roll(int roll) {
+        if (roll <= 0) {
+            throw new RuntimeException("Invalid roll");
+        }
+
         String currentPlayerName = this.players.get(this.currentPlayerIndex);
 
         log.info("Current player {} has rolled a {}.", currentPlayerName, roll);
