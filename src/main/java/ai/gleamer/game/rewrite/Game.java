@@ -104,11 +104,14 @@ public class Game {
     }
 
     private void movePlayer(String currentPlayerName, int roll) {
-        this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
+        int currentPlayerPlace = this.places[this.currentPlayer];
+        int newPlayerPlace = currentPlayerPlace + roll;
 
-        if (this.places[this.currentPlayer] > 11) {
-            this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
+        if (newPlayerPlace > 11) {
+            newPlayerPlace = newPlayerPlace - 12;
         }
+
+        this.places[this.currentPlayer] = newPlayerPlace;
 
         log.info("{}'s new location is {}.", currentPlayerName, this.places[this.currentPlayer]);
     }
