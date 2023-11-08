@@ -3,7 +3,6 @@ package ai.gleamer.game.rewrite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -18,31 +17,23 @@ public class Game {
     private static final int REQUIRED_COINS_FOR_WINNING = 6;
     private static final int TOTAL_SQUARES = 12;
 
-    List<String> players;
-    int[] places;
-    int[] purses;
-    boolean[] inPenaltyBox;
+    private final PlayersList playersList;
 
     List<String> popQuestions;
     List<String> scienceQuestions;
     List<String> sportsQuestions;
     List<String> rockQuestions;
 
-    int currentPlayerIndex;
     boolean isGettingOutOfPenaltyBox;
 
     public Game() {
-        this.players = new ArrayList<>();
-        this.places = new int[MAXIMUM_PLAYERS];
-        this.purses = new int[MAXIMUM_PLAYERS];
-        this.inPenaltyBox = new boolean[MAXIMUM_PLAYERS];
+        this.playersList = new PlayersList(MAXIMUM_PLAYERS);
 
         this.popQuestions = new LinkedList<>();
         this.scienceQuestions = new LinkedList<>();
         this.sportsQuestions = new LinkedList<>();
         this.rockQuestions = new LinkedList<>();
 
-        this.currentPlayerIndex = 0;
         this.isGettingOutOfPenaltyBox = false;
 
         for (int i = 0; i < QUESTION_LIST_SIZE; i++) {
@@ -68,18 +59,15 @@ public class Game {
             throw new RuntimeException("Invalid player name");
         }
 
-        this.players.add(playerName);
-        this.places[playersCount] = 0;
-        this.purses[playersCount] = 0;
-        this.inPenaltyBox[playersCount] = false;
+        this.playersList.addPlayer(playerName);
 
-        log.info("{} was added with player number {}.", playerName, this.players.size());
+        log.info("{} was added with player number {}.", playerName, this.getPlayersCount());
 
         return true;
     }
 
     public int getPlayersCount() {
-        return this.players.size();
+        return this.playersList.getPlayersCount();
     }
 
     public void roll(int roll) {
@@ -87,15 +75,15 @@ public class Game {
             throw new RuntimeException("Invalid roll");
         }
 
-        String currentPlayerName = this.players.get(this.currentPlayerIndex);
+        Player player = this.playersList.getCurrentPlayer();
 
-        log.info("Current player {} has rolled a {}.", currentPlayerName, roll);
+        log.info("Current player {} has rolled a {}.", player.getName(), roll);
 
-        boolean isCurrentPlayerOutOfPenaltyBox = !this.inPenaltyBox[this.currentPlayerIndex];
-        this.isGettingOutOfPenaltyBox = this.canPlayerGetOutOfPenaltyBox(currentPlayerName, roll);
+        boolean isCurrentPlayerOutOfPenaltyBox = !player.isInPenaltyBox();
+        this.isGettingOutOfPenaltyBox = this.canPlayerGetOutOfPenaltyBox(player, roll);
 
         if (isCurrentPlayerOutOfPenaltyBox || this.isGettingOutOfPenaltyBox) {
-            int newPlayerPlace = this.movePlayer(currentPlayerName, roll);
+            int newPlayerPlace = this.movePlayer(player, roll);
 
             Category category = this.getCurrentCategory(newPlayerPlace);
 
@@ -105,34 +93,36 @@ public class Game {
         }
     }
 
-    private boolean canPlayerGetOutOfPenaltyBox(String currentPlayerName, int roll) {
-        boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[this.currentPlayerIndex];
+    private boolean canPlayerGetOutOfPenaltyBox(Player player, int roll) {
+        boolean isCurrentPlayerInPenaltyBox = player.isInPenaltyBox();
         boolean isRollEven = (roll % 2) == 0;
 
         if (isCurrentPlayerInPenaltyBox && isRollEven) {
-            log.info("{} is not getting out of the penalty box.", currentPlayerName);
+            log.info("{} is not getting out of the penalty box.", player);
             return false;
         }
 
         if (isCurrentPlayerInPenaltyBox) {
-            log.info("{} is getting out of the penalty box.", currentPlayerName);
+            log.info("{} is getting out of the penalty box.", player);
             return true;
         }
 
         return this.isGettingOutOfPenaltyBox;
     }
 
-    private void movePlayer(String currentPlayerName, int roll) {
-        int currentPlayerPlace = this.places[this.currentPlayerIndex];
+    private int movePlayer(Player player, int roll) {
+        int currentPlayerPlace = player.getPlace();
         int newPlayerPlace = currentPlayerPlace + roll;
 
         if (newPlayerPlace >= TOTAL_SQUARES) {
             newPlayerPlace = newPlayerPlace - TOTAL_SQUARES;
         }
 
-        this.places[this.currentPlayerIndex] = newPlayerPlace;
+        player.setPlace(newPlayerPlace);
 
-        log.info("{}'s new location is {}.", currentPlayerName, this.places[this.currentPlayerIndex]);
+        log.info("{}'s new location is {}.", player, player.getPlace());
+
+        return player.getPlace();
     }
 
     private void askQuestion(Category category) {
@@ -158,46 +148,40 @@ public class Game {
     }
 
     public boolean wasCorrectlyAnswered() {
-        String currentPlayerName = this.players.get(this.currentPlayerIndex);
-        boolean isCurrentPlayerInPenaltyBox = this.inPenaltyBox[this.currentPlayerIndex];
+        Player player = this.playersList.getCurrentPlayer();
+        boolean isCurrentPlayerInPenaltyBox = player.isInPenaltyBox();
 
         if (isCurrentPlayerInPenaltyBox && !this.isGettingOutOfPenaltyBox) {
-            this.getNextPlayer();
+            this.playersList.getNextPlayer();
 
             return true;
         }
 
         log.info("Answer was correct !");
-        this.inPenaltyBox[this.currentPlayerIndex] = false;
-        this.purses[this.currentPlayerIndex]++;
-        log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayerIndex]);
+        player.setInPenaltyBox(false);
+        player.addOneCoinToPurse();
+        log.info("{} now has {} Gold Coins.", player, player.getPurse());
 
-        boolean winner = this.didPlayerWin(this.purses[this.currentPlayerIndex]);
+        boolean winner = this.didPlayerWin(player);
 
-        this.getNextPlayer();
+        this.playersList.getNextPlayer();
 
         return winner;
     }
 
     public boolean wrongAnswer() {
-        String currentPlayerName = this.players.get(this.currentPlayerIndex);
+        Player player = this.playersList.getCurrentPlayer();
 
-        log.info("{} incorrectly answered question and has been sent to penalty box.", currentPlayerName);
-        this.inPenaltyBox[this.currentPlayerIndex] = true;
+        log.info("{} incorrectly answered question and has been sent to penalty box.", player);
+        player.setInPenaltyBox(true);
 
-        this.getNextPlayer();
+        this.playersList.getNextPlayer();
 
         return true;
     }
 
-    private boolean didPlayerWin(int playerPurse) {
-        return playerPurse == REQUIRED_COINS_FOR_WINNING;
-    }
-
-    private int getNextPlayer() {
-        this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.players.size();
-
-        return this.currentPlayerIndex;
+    private boolean didPlayerWin(Player player) {
+        return player.getPurse() == REQUIRED_COINS_FOR_WINNING;
     }
 
 }
