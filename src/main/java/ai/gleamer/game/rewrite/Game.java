@@ -11,6 +11,12 @@ public class Game {
 
     private static final Logger log = LoggerFactory.getLogger(Game.class);
 
+    private static final int MINIMUM_PLAYERS = 2;
+    private static final int MAXIMUM_PLAYERS = 6;
+    private static final int QUESTION_LIST_SIZE = 50;
+    private static final int REQUIRED_COINS_FOR_WINNING = 6;
+    private static final int TOTAL_SQUARES = 12;
+
     List<String> players;
     int[] places;
     int[] purses;
@@ -26,9 +32,9 @@ public class Game {
 
     public Game() {
         this.players = new ArrayList<>();
-        this.places = new int[6];
-        this.purses = new int[6];
-        this.inPenaltyBox = new boolean[6];
+        this.places = new int[MAXIMUM_PLAYERS];
+        this.purses = new int[MAXIMUM_PLAYERS];
+        this.inPenaltyBox = new boolean[MAXIMUM_PLAYERS];
 
         this.popQuestions = new LinkedList<>();
         this.scienceQuestions = new LinkedList<>();
@@ -38,7 +44,7 @@ public class Game {
         this.currentPlayer = 0;
         this.isGettingOutOfPenaltyBox = false;
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < QUESTION_LIST_SIZE; i++) {
             this.popQuestions.addLast(QuestionsBuilder.createPopQuestion(i));
             this.scienceQuestions.addLast(QuestionsBuilder.createScienceQuestion(i));
             this.sportsQuestions.addLast(QuestionsBuilder.createSportsQuestion(i));
@@ -47,7 +53,7 @@ public class Game {
     }
 
     public boolean isPlayable() {
-        return (this.howManyPlayers() >= 2);
+        return (this.howManyPlayers() >= MINIMUM_PLAYERS);
     }
 
     public boolean add(String playerName) {
@@ -107,8 +113,8 @@ public class Game {
         int currentPlayerPlace = this.places[this.currentPlayer];
         int newPlayerPlace = currentPlayerPlace + roll;
 
-        if (newPlayerPlace >= 12) {
-            newPlayerPlace = newPlayerPlace - 12;
+        if (newPlayerPlace >= TOTAL_SQUARES) {
+            newPlayerPlace = newPlayerPlace - TOTAL_SQUARES;
         }
 
         this.places[this.currentPlayer] = newPlayerPlace;
@@ -173,7 +179,7 @@ public class Game {
     }
 
     private boolean didPlayerWin() {
-        return this.purses[this.currentPlayer] != 6;
+        return this.purses[this.currentPlayer] != REQUIRED_COINS_FOR_WINNING;
     }
 
     private int getNextPlayer() {
