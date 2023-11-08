@@ -183,7 +183,7 @@ public class Game {
     }
 
     private boolean didPlayerWin() {
-        return this.purses[this.currentPlayerIndex] != REQUIRED_COINS_FOR_WINNING;
+        return this.purses[this.currentPlayerIndex] == REQUIRED_COINS_FOR_WINNING;
     }
 
     private int getNextPlayer() {
