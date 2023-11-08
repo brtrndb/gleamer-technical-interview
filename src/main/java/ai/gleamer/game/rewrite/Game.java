@@ -13,7 +13,7 @@ public class Game {
     private static final int MAXIMUM_PLAYERS = 6;
     private static final int QUESTION_LIST_SIZE = 50;
     private static final int REQUIRED_COINS_FOR_WINNING = 6;
-    private static final int TOTAL_SQUARES = 12;
+    private static final int TOTAL_SQUARES = 3 * Category.values().length;
 
     private final PlayersList playersList;
     private final QuestionsDeck questionsDeck;
@@ -113,12 +113,9 @@ public class Game {
     }
 
     private static Category getCurrentCategory(int location) {
-        return switch (location) {
-            case 0, 4, 8 -> Category.POP;
-            case 1, 5, 9 -> Category.SCIENCE;
-            case 2, 6, 10 -> Category.SPORTS;
-            default -> Category.ROCK;
-        };
+        int categoryIndex = location % Category.values().length;
+
+        return Category.values()[categoryIndex];
     }
 
     public boolean isCorrectlyAnswered() {
