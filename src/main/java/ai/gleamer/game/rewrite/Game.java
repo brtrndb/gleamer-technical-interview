@@ -170,6 +170,7 @@ public class Game {
         }
 
         log.info("Answer was correct !");
+        this.inPenaltyBox[this.currentPlayerIndex] = false;
         this.purses[this.currentPlayerIndex]++;
         log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayerIndex]);
 
