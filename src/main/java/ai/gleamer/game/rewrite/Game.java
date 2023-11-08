@@ -3,8 +3,6 @@ package ai.gleamer.game.rewrite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
 public class Game {
@@ -18,30 +16,14 @@ public class Game {
     private static final int TOTAL_SQUARES = 12;
 
     private final PlayersList playersList;
-
-    List<String> popQuestions;
-    List<String> scienceQuestions;
-    List<String> sportsQuestions;
-    List<String> rockQuestions;
+    private final QuestionsDeck questionsDeck;
 
     boolean isGettingOutOfPenaltyBox;
 
     public Game() {
         this.playersList = new PlayersList(MAXIMUM_PLAYERS);
-
-        this.popQuestions = new LinkedList<>();
-        this.scienceQuestions = new LinkedList<>();
-        this.sportsQuestions = new LinkedList<>();
-        this.rockQuestions = new LinkedList<>();
-
+        this.questionsDeck = new QuestionsDeck(QUESTION_LIST_SIZE);
         this.isGettingOutOfPenaltyBox = false;
-
-        for (int i = 0; i < QUESTION_LIST_SIZE; i++) {
-            this.popQuestions.addLast(QuestionsBuilder.createPopQuestion(i));
-            this.scienceQuestions.addLast(QuestionsBuilder.createScienceQuestion(i));
-            this.sportsQuestions.addLast(QuestionsBuilder.createSportsQuestion(i));
-            this.rockQuestions.addLast(QuestionsBuilder.createRockQuestion(i));
-        }
     }
 
     public boolean isReadyToPlay() {
@@ -126,14 +108,7 @@ public class Game {
     }
 
     private void askQuestion(Category category) {
-        List<String> currentCategoryQuestions = switch (category) {
-            case POP -> this.popQuestions;
-            case SCIENCE -> this.scienceQuestions;
-            case SPORTS -> this.sportsQuestions;
-            case ROCK -> this.rockQuestions;
-        };
-
-        String currentQuestion = currentCategoryQuestions.removeFirst();
+        String currentQuestion = this.questionsDeck.pickQuestion(category);
 
         log.info(currentQuestion);
     }
