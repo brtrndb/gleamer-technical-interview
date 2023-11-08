@@ -107,7 +107,7 @@ public class Game {
         int currentPlayerPlace = this.places[this.currentPlayer];
         int newPlayerPlace = currentPlayerPlace + roll;
 
-        if (newPlayerPlace > 11) {
+        if (newPlayerPlace >= 12) {
             newPlayerPlace = newPlayerPlace - 12;
         }
 
