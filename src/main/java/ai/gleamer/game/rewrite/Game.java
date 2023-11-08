@@ -66,7 +66,7 @@ public class Game {
         if (isCurrentPlayerOutOfPenaltyBox || this.isGettingOutOfPenaltyBox) {
             int newPlayerPosition = Game.movePlayer(player, roll);
 
-            Category category = Game.getCurrentCategory(newPlayerPosition);
+            Category category = Game.getCategoryAtLocation(newPlayerPosition);
 
             log.info("The current category is {}.", category);
 
@@ -112,7 +112,7 @@ public class Game {
         log.info(currentQuestion);
     }
 
-    private static Category getCurrentCategory(int location) {
+    private static Category getCategoryAtLocation(int location) {
         int categoryIndex = location % Category.values().length;
 
         return Category.values()[categoryIndex];
