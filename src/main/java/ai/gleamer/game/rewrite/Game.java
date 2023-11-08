@@ -172,7 +172,7 @@ public class Game {
         this.purses[this.currentPlayerIndex]++;
         log.info("{} now has {} Gold Coins.", currentPlayerName, this.purses[this.currentPlayerIndex]);
 
-        boolean winner = this.didPlayerWin();
+        boolean winner = this.didPlayerWin(this.purses[this.currentPlayerIndex]);
 
         this.getNextPlayer();
 
@@ -190,8 +190,8 @@ public class Game {
         return true;
     }
 
-    private boolean didPlayerWin() {
-        return this.purses[this.currentPlayerIndex] == REQUIRED_COINS_FOR_WINNING;
+    private boolean didPlayerWin(int playerPurse) {
+        return playerPurse == REQUIRED_COINS_FOR_WINNING;
     }
 
     private int getNextPlayer() {
