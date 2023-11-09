@@ -7,14 +7,14 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class Player {
+class Player {
 
     private final String name;
     private int location;
     private int coins;
     private boolean isInPenaltyBox;
 
-    public Player(String name) {
+    Player(String name) {
         this.name = Objects.requireNonNull(name, "Player name is null");
         this.location = 0;
         this.coins = 0;

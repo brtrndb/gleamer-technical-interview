@@ -1,6 +1,6 @@
 package ai.gleamer.game.rewrite;
 
-public final class QuestionsBuilder {
+final class QuestionsBuilder {
 
     private QuestionsBuilder() {
     }

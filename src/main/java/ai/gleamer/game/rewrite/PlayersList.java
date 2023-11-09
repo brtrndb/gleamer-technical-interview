@@ -3,13 +3,13 @@ package ai.gleamer.game.rewrite;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayersList {
+class PlayersList {
 
     private final int maximumPlayersCount;
     private final List<Player> players;
     private int currentPlayerIndex;
 
-    public PlayersList(int maximumPlayersCount) {
+    PlayersList(int maximumPlayersCount) {
         this.maximumPlayersCount = maximumPlayersCount;
         this.players = new ArrayList<>(this.maximumPlayersCount);
         this.currentPlayerIndex = 0;

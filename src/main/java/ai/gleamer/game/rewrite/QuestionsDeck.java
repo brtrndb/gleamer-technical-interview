@@ -3,14 +3,14 @@ package ai.gleamer.game.rewrite;
 import java.util.LinkedList;
 import java.util.List;
 
-public class QuestionsDeck {
+class QuestionsDeck {
 
     private final List<String> popQuestions;
     private final List<String> scienceQuestions;
     private final List<String> sportsQuestions;
     private final List<String> rockQuestions;
 
-    public QuestionsDeck(int nbCardsPerCategory) {
+    QuestionsDeck(int nbCardsPerCategory) {
         this.popQuestions = new LinkedList<>();
         this.scienceQuestions = new LinkedList<>();
         this.sportsQuestions = new LinkedList<>();
