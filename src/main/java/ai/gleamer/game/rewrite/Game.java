@@ -52,6 +52,8 @@ public class Game {
     }
 
     public void roll(int roll) {
+        this.throwIfNotReady();
+
         if (roll <= 0) {
             throw new RuntimeException("Invalid roll");
         }
@@ -119,6 +121,8 @@ public class Game {
     }
 
     public boolean isCorrectlyAnswered() {
+        this.throwIfNotReady();
+
         Player player = this.playersList.getCurrentPlayer();
         boolean isCurrentPlayerInPenaltyBox = player.isInPenaltyBox();
 
@@ -145,6 +149,8 @@ public class Game {
     }
 
     public boolean isWronglyAnswered() {
+        this.throwIfNotReady();
+
         Player player = this.playersList.getCurrentPlayer();
 
         log.info("{} incorrectly answered question and has been sent to penalty box.", player);
@@ -155,4 +161,9 @@ public class Game {
         return true;
     }
 
+    private void throwIfNotReady() {
+        if (!this.isReadyToPlay()) {
+            throw new RuntimeException("The game is not ready");
+        }
+    }
 }
