@@ -8,6 +8,18 @@ The exercise has been made using:
 - Java 21.
 - Gradle.
 
+## Build
+
+```shell
+$ ./gradlew build
+```
+
+## Run tests
+
+```shell
+$ ./gradlew check
+```
+
 ## Problem statement.
 
 Read [this](./technical-interview-challenge.pdf).
